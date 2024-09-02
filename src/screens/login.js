@@ -1,21 +1,19 @@
-import { hover } from '@testing-library/user-event/dist/hover';
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Platform, KeyboardAvoidingView } from 'react-native';
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Aquí puedes manejar la lógica de inicio de sesión
-    console.log('Email:', email);
+    console.log('User:', username);
     console.log('Password:', password);
+
+    navigation.navigate("Logged");
   };
 
   const handleRegister = () => {
-    // Aquí puedes manejar la lógica de registro
-    // Por ejemplo, navegar a la pantalla de registro
-    navigation.navigate('Register'); // Asegúrate de tener una pantalla de registro en tu navegador
+    navigation.navigate('Registro'); 
   };
 
   return (
@@ -28,9 +26,9 @@ const Login = ({ navigation }) => {
           <Text style={styles.title}>Iniciar sesión</Text>
           <TextInput
             style={styles.input}
-            placeholder="Correo electrónico"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+            placeholder="Nombre de usuario"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
             keyboardType="email-address"
             autoCapitalize="none"
           />

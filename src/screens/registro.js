@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Platform, KeyboardAvoidingView } from 'react-native';
-
+import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Platform, KeyboardAvoidingView, Alert } from 'react-native';
+import userApi from '../api/userApi';
 const Registro = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleRegister = () => {
-    // Aquí puedes manejar la lógica de registro
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
+    if (!email || !username || !password ) {
+      Alert.alert('Error', 'Por favor, complete todos los campos.');
+      return;
+    }
+    Alert.alert('Registro Exitoso', `Usuario: ${username}\nEmail: ${email}`);
+
+    try
+    {
+        const result = userApi.RegisterUser(username,password) 
+        if (result.status === true) {
+            navigation.navigate('Login');
+        }else
+        {
+            alert("Usuario o contraseña incorrecta");
+        }
+    }  
+    catch(error)
+    {
+        console.error('Login error:', error);
+        //setErrorMessage('Error de login');
+    }
+
+    
   };
 
   return (

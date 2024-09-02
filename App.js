@@ -22,7 +22,7 @@ function LoginStackScreen(){
 function LoggedStackScreen() {
   return (
     <LoggedStack.Navigator screenOptions={{ headerShown: false }}>
-      <LoginStack.Screen name="Home" component={Home}/>
+      <LoggedStack.Screen name="Home" component={Home}/>
     </LoggedStack.Navigator>
   );
 }
