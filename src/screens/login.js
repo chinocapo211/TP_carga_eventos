@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Platform, KeyboardAvoidingView } from 'react-native';
+import userApi from '../../api/userApi';
+import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Platform, KeyboardAvoidingView, Alert } from 'react-native';
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    console.log('User:', username);
-    console.log('Password:', password);
+    try {
+      const result = userApi.user_login(username, password);
+      if (result.status === 200) {
+        const token = result.data.token; // Suponiendo que el token está en result.data.token
+        navigation.navigate('Home', { token });
+      } else {
+        Alert.alert('Error', 'Usuario o contraseña incorrecta');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
 
     navigation.navigate("Logged");
   };

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Platform, KeyboardAvoidingView, Alert } from 'react-native';
 import userApi from '../api/userApi';
 const Registro = ({ navigation }) => {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleRegister = () => {
@@ -15,7 +15,7 @@ const Registro = ({ navigation }) => {
 
     try
     {
-        const result = userApi.RegisterUser(username,password) 
+        const result = userApi.RegisterUser(email,username,password) 
         if (result.status === true) {
             navigation.navigate('Login');
         }else
@@ -26,7 +26,6 @@ const Registro = ({ navigation }) => {
     catch(error)
     {
         console.error('Login error:', error);
-        //setErrorMessage('Error de login');
     }
 
     
