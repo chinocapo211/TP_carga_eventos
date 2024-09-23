@@ -6,7 +6,7 @@ const Registro = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!email || !username || !password ) {
       Alert.alert('Error', 'Por favor, complete todos los campos.');
       return;
@@ -15,7 +15,7 @@ const Registro = ({ navigation }) => {
 
     try
     {
-        const result = userApi.RegisterUser(email,username,password) 
+        const result = await userApi.RegisterUser(email,username,password) 
         if (result.status === true) {
             navigation.navigate('Login');
         }else

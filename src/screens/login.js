@@ -3,15 +3,16 @@ import userApi from "../api/userApi";
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Platform, KeyboardAvoidingView, Alert } from 'react-native';
 
 const Login = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setusernamee] = useState('');
+  const [password, setpasswordd] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+  
     try {
-      const result = userApi.user_login(username, password);
+      const result = await userApi.user_login(username,password);
+      console.log(result)
       if (result.status === 200) {
-        const token = result.data.token; // Suponiendo que el token está en result.data.token
-        navigation.navigate('Home', { token });
+        navigation.navigate("Logged");
       } else {
         Alert.alert('Error', 'Usuario o contraseña incorrecta');
       }
@@ -19,7 +20,6 @@ const Login = ({ navigation }) => {
       console.error('Login error:', error);
     }
 
-    navigation.navigate("Logged");
   };
 
   const handleRegister = () => {
@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
             style={styles.input}
             placeholder="Nombre de usuario"
             value={username}
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={(text) => setusernamee(text)}
             keyboardType="email-address"
             autoCapitalize="none"
           />
@@ -46,7 +46,7 @@ const Login = ({ navigation }) => {
             style={styles.input}
             placeholder="Contraseña"
             value={password}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => setpasswordd(text)}
             secureTextEntry
             autoCapitalize="none"
           />
@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
+    paddingBottom:"27%",
+    backgroundColor: '#f6f8fa',
   },
   innerContainer: {
     backgroundColor: '#ffffff', // Fondo blanco para el formulario

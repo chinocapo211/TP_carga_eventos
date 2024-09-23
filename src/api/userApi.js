@@ -1,4 +1,4 @@
-import apiManager from "./apiManager";
+import {apiManager} from "./apiManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const user_login = async (Username,Password) => {
   const headers = {

@@ -17,6 +17,7 @@ const apiManager = async (method, headers, data, path) => {
     console.error(`Error en la solicitud POST a ${path}: ${error.message}`);
     throw new Error(`Error en la solicitud POST a ${path}: ${error.message}`);
   }
+  
 };
 
-export default apiManager;
+export {apiManager};
