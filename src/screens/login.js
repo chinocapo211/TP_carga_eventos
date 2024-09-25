@@ -65,14 +65,14 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#f6f8fa', // Fondo gris claro similar al de GitHub
+    backgroundColor: '#e0e0e0', // Fondo gris claro similar al de GitHub
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     padding: 16,
     paddingBottom:"27%",
-    backgroundColor: '#f6f8fa',
+    backgroundColor: '#e0e0e0',
   },
   innerContainer: {
     backgroundColor: '#ffffff', // Fondo blanco para el formulario
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#dcdcdc',
     borderRadius: 6, // Bordes redondeados
-    backgroundColor: '#fafafa', // Fondo gris claro para los campos
+    backgroundColor: '#e0e0e0', // Fondo gris claro para los campos
   },
   button: {
     width: '100%',

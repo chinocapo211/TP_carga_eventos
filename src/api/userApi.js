@@ -41,7 +41,7 @@ const ObtenerInfoJugador = async (token) => {
     return { error: error.message };
   }
 };
-const RegisterUser = async (Email,Password,Username) =>
+const RegisterUser = async (First_name,Last_name,Username,Password) =>
 {
 
     const headers = {
@@ -50,7 +50,8 @@ const RegisterUser = async (Email,Password,Username) =>
 
     const data =
   {
-    email: Email,
+    first_name: First_name,
+    last_name: Last_name,
     username: Username,
     password: Password,
   }

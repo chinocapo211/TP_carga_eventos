@@ -40,7 +40,7 @@ const Home = ({ navigation }) => {
           Explora, disfruta y no dudes en contactarnos si necesitas ayuda.
         </Text>
         
-        <FlatList
+        <FlatList style={styles.list}
           data={events}
           renderItem={renderEvent}
           keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
@@ -55,6 +55,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#e0e0e0',
   },
+  list:{
+    marginTop:"2%"
+  },  
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -72,13 +75,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#333',
     textAlign: 'center',
-    marginTop: "6%",
+    marginTop: "2%",
     lineHeight: 24,
   },
   eventContainer: {
     backgroundColor: '#fff',
     padding: 15,
-    marginVertical: 10,
+    marginVertical: 15,
     borderRadius: 5,
     width: '100%',
   },

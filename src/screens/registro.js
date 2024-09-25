@@ -3,20 +3,21 @@ import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Plat
 import userApi from '../api/userApi';
 const Registro = ({ navigation }) => {
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+  const [first_name, setFirst_name] = useState('');
+  const [last_name, setLast_name] = useState('');
   const [password, setPassword] = useState('');
 
   const handleRegister = async () => {
-    if (!email || !username || !password ) {
+    if (!email || !first_name || !last_name || !password ) {
       Alert.alert('Error', 'Por favor, complete todos los campos.');
       return;
     }
-    Alert.alert('Registro Exitoso', `Usuario: ${username}\nEmail: ${email}`);
+    Alert.alert('Registro Exitoso', `Usuario: ${first_name}\nEmail: ${email}`);
 
     try
     {
-        const result = await userApi.RegisterUser(email,username,password) 
-        if (result.status === true) {
+        const result = await userApi.RegisterUser(first_name,last_name,email,password) 
+        if (result.status === 200) {
             navigation.navigate('Login');
         }else
         {
@@ -41,9 +42,16 @@ const Registro = ({ navigation }) => {
           <Text style={styles.title}>Registro</Text>
           <TextInput
             style={styles.input}
-            placeholder="Nombre de usuario"
-            value={username}
-            onChangeText={(text) => setUsername(text)}
+            placeholder="Nombre"
+            value={first_name}
+            onChangeText={(text) => setFirst_name(text)}
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Apellido"
+            value={last_name}
+            onChangeText={(text) => setLast_name(text)}
             autoCapitalize="none"
           />
           <TextInput
