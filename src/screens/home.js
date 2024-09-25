@@ -56,7 +56,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
   list:{
-    marginTop:"2%"
+    marginTop:"2%",
+    width:"80%",
+    display:"flex",
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"space-between",
+    flexWrap:"nowrap",
   },  
   container: {
     flex: 1,
