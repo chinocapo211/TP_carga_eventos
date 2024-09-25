@@ -87,9 +87,20 @@ const styles = StyleSheet.create({
   eventContainer: {
     backgroundColor: '#fff',
     padding: 15,
-    marginVertical: 15,
-    borderRadius: 5,
-    width: '100%',
+    marginVertical: 10,
+    borderRadius: 10,
+    width: '23%',
+    elevation: 3, // for Android shadow
+    shadowColor: '#000', // for iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    display:"flex",
+    textAlign:"center",
+    alignItems:"center",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   eventTitle: {
     fontSize: 20,
