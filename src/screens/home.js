@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Alert, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {all_events} from '../api/eventosApi';
 
 const Home = ({ navigation }) => {
   const [events, setEvents] = useState([]);
+
+  const handleButton = () => {
+    navigation.navigate('CrearEvento'); 
+  };
 
   const getEvents = async () => {
     try {
@@ -13,7 +17,7 @@ const Home = ({ navigation }) => {
       if (result.status === 200) {
         setEvents(result.data); 
       } else {
-        Alert.alert('Error', 'Muy mal mal');
+        alert('Error', 'Muy mal mal');
       }
     } catch (error) {
       console.error('Mal no muy pero mal', error);
@@ -39,12 +43,17 @@ const Home = ({ navigation }) => {
           Estamos encantados de tenerte aquí. Nuestra aplicación te ayudará a lograr la felicidad.
           Explora, disfruta y no dudes en contactarnos si necesitas ayuda.
         </Text>
-        
-        <FlatList style={styles.list}
+        <View style={styles.list}>
+        <FlatList
           data={events}
           renderItem={renderEvent}
           keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
         />
+        </View>
+        
+        <TouchableOpacity style={styles.registerButton} onPress={handleButton}>
+            <Text style={styles.registerButtonText}>Crear Evento</Text>
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -60,10 +69,21 @@ const styles = StyleSheet.create({
     width:"80%",
     display:"flex",
     flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"space-between",
     flexWrap:"nowrap",
   },  
+  registerButton: {
+    width: '30%',
+    padding: 16,
+    backgroundColor: '#24292e', // Fondo azul para el botón de registro
+    borderRadius: 6, // Bordes redondeados
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  registerButtonText: {
+    color: '#ffffff', // Texto blanco para el botón de registro
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -89,7 +109,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 10,
     borderRadius: 10,
-    width: '23%',
+    width: '100%',
     elevation: 3, // for Android shadow
     shadowColor: '#000', // for iOS shadow
     shadowOffset: {

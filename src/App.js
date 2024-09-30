@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './screens/home';
 import Login from './screens/login';
 import Registro from './screens/registro';
+import CrearEvento from './screens/crearevento';
 
 const LoginStack = createStackNavigator();
 const LoggedStack = createStackNavigator();
@@ -23,6 +24,7 @@ function LoggedStackScreen() {
   return (
     <LoggedStack.Navigator screenOptions={{ headerShown: false }}>
       <LoggedStack.Screen name="Home" component={Home}/>
+      <LoggedStack.Screen name="CrearEvento" component={CrearEvento}/>
     </LoggedStack.Navigator>
   );
 }
