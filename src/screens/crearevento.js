@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, Picker, Switch  } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, Picker, Switch, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { all_categories } from '../api/categoriesApi';
-import { all_locations } from '../api/locations'; 
-
+import { all_locations } from '../api/locations';
+import { createEvent } from '../api/eventosApi';
 const CrearEvento = ({ navigation }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -20,7 +20,6 @@ const CrearEvento = ({ navigation }) => {
   const getCategories = async () => {
     try {
       const result = await all_categories();
-      console.log(result);
       if (result.status === 200) {
         setCategories(result.data); 
       } else {
@@ -34,7 +33,6 @@ const CrearEvento = ({ navigation }) => {
   const getLocations = async () => {
     try {
       const result = await all_locations();
-      console.log(result);
       if (result.status === 200) {
         setLocations(result.data); 
       } else {
@@ -69,15 +67,32 @@ const CrearEvento = ({ navigation }) => {
       max_assistance: parseInt(maxAssistance),
     };
 
-    // Aquí podrías enviar el eventData a tu API o manejador de eventos
-    console.log(eventData);
-    alert('Evento creado correctamente');
-    navigation.goBack();
+    
+    console.log("evento:",eventData);
+    createEvento(eventData);
   };
 
+  const createEvento = async (eventData) =>{
+    console.log("ceate evenatdsa:",eventData);
+    try{
+      const result = await createEvent(eventData);
+      if(result.status === 200){
+        alert('Evento creado correctamente'); 
+        navigation.goBack();
+      }
+      else{
+        alert('no se pudo crear');
+      }
+    }
+    catch(error){
+      console.error('No se pudo crear evento:', error);
+    }
+    
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Crear Evento</Text>
         <TextInput
           placeholder="Nombre del evento"
           value={name}
@@ -144,8 +159,8 @@ const CrearEvento = ({ navigation }) => {
             onValueChange={setEnabledForEnrollment}
           />
         </View>
-        <Button title="Crear Evento" onPress={handleSubmit} />
-      </View>
+        <Button title="Crear Evento" onPress={handleSubmit} color="#24292e" />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -156,32 +171,44 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
+  },
   input: {
     width: '100%',
-    height: 40,
-    borderColor: 'gray',
+    height: 50,
+    borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 12,
-    paddingLeft: 8,
-    borderRadius: 4,
+    paddingLeft: 10,
+    borderRadius: 8,
+    backgroundColor: '#fff',
   },
   picker: {
     height: 50,
     width: '100%',
     marginBottom: 12,
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+    borderWidth: 1,
   },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 20,
   },
   checkboxLabel: {
     marginRight: 10,
+    fontSize: 16,
   },
 });
 

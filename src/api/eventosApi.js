@@ -11,4 +11,17 @@ const all_events = async () => {
   }
 };
 
-export {all_events};
+const createEvent = async (event) => {
+  console.log(event)
+  try {
+  const result = await apiManager('POST', null, event, 'event/createEvent');
+  console.log("crear evento")
+  console.log(result);
+  return result;
+  } catch (error) {
+  console.error('Error en la solicitud:', error);
+  return { error: error.message };
+}
+};
+
+export {all_events, createEvent};
