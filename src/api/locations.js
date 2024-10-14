@@ -1,8 +1,8 @@
 import {apiManager} from "./apiManager";
-const all_events = async () => {
+const all_locations = async () => {
     try {
-    const result = await apiManager('GET', null,null, 'event/getAll');
-    console.log("Hola ----------------------------------")
+    const result = await apiManager('GET', null,null, 'event-location/getAll');
+    console.log("locations_api")
     console.log(result);
     return result;
     } catch (error) {
@@ -11,4 +11,4 @@ const all_events = async () => {
   }
 };
 
-export {all_events};
+export {all_locations};

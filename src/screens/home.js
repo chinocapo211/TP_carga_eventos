@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {all_events} from '../api/eventosApi';
 
 const Home = ({ navigation }) => {
   const [events, setEvents] = useState([]);
 
-  const handleButton = () => {
-    navigation.navigate('CrearEvento'); 
+  const handleCrearEvento = () => {
+    navigation.navigate('CrearEvento');
+    console.log("a");
   };
 
   const getEvents = async () => {
@@ -43,6 +44,9 @@ const Home = ({ navigation }) => {
           Estamos encantados de tenerte aquí. Nuestra aplicación te ayudará a lograr la felicidad.
           Explora, disfruta y no dudes en contactarnos si necesitas ayuda.
         </Text>
+        <TouchableOpacity style={styles.registerButton} onPress={handleCrearEvento}>
+            <Text style={styles.registerButtonText}>Crear Evento</Text>
+          </TouchableOpacity>
         <View style={styles.list}>
         <FlatList
           data={events}
@@ -50,10 +54,6 @@ const Home = ({ navigation }) => {
           keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
         />
         </View>
-        
-        <TouchableOpacity style={styles.registerButton} onPress={handleButton}>
-            <Text style={styles.registerButtonText}>Crear Evento</Text>
-          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
   list:{
-    marginTop:"2%",
+    marginTop:30,
     width:"80%",
     display:"flex",
     flexDirection:"row",
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#24292e', // Fondo azul para el botón de registro
     borderRadius: 6, // Bordes redondeados
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: 40,
   },
   registerButtonText: {
     color: '#ffffff', // Texto blanco para el botón de registro

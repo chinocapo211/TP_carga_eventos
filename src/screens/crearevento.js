@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, TextInput, Button, Picker, Switch  } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, Picker, Switch  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { all_categories } from '../api/categoriesApi';
+import { all_locations } from '../api/locations'; 
 
 const CrearEvento = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -13,7 +14,8 @@ const CrearEvento = ({ navigation }) => {
   const [price, setPrice] = useState('');
   const [enabledForEnrollment, setEnabledForEnrollment] = useState(false);
   const [maxAssistance, setMaxAssistance] = useState('');
-  const [categoiries, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   const getCategories = async () => {
     try {
@@ -22,28 +24,31 @@ const CrearEvento = ({ navigation }) => {
       if (result.status === 200) {
         setCategories(result.data); 
       } else {
-        alert('Muy mal mal');
+        alert('Error categories');
       }
     } catch (error) {
-      console.error('Mal no muy pero mal', error);
+      console.error('Error categories catch', error);
+    }
+  };
+
+  const getLocations = async () => {
+    try {
+      const result = await all_locations();
+      console.log(result);
+      if (result.status === 200) {
+        setLocations(result.data); 
+      } else {
+        alert('Error locations');
+      }
+    } catch (error) {
+      console.error('Error locations catch', error);
     }
   };
 
   useEffect(() => {
     getCategories();
+    getLocations();
   }, []);
-
-  const eventCategories = [
-    { id: 1, name: 'Concierto' },
-    { id: 2, name: 'Taller' },
-    { id: 3, name: 'Seminario' },
-  ];
-
-  const eventLocations = [
-    { id: 1, name: 'Sala A' },
-    { id: 2, name: 'Sala B' },
-    { id: 3, name: 'Auditorio' },
-  ];
 
   const handleSubmit = () => {
     if (!name || !description || !idEventCategory || !idEventLocation || !startDate || 
@@ -91,7 +96,7 @@ const CrearEvento = ({ navigation }) => {
           style={styles.picker}
         >
           <Picker.Item label="Seleccione una categoría" value="" />
-          {eventCategories.map((category) => (
+          {categories.map((category) => (
             <Picker.Item key={category.id} label={category.name} value={category.id.toString()} />
           ))}
         </Picker>
@@ -101,7 +106,7 @@ const CrearEvento = ({ navigation }) => {
           style={styles.picker}
         >
           <Picker.Item label="Seleccione una locación" value="" />
-          {eventLocations.map((location) => (
+          {locations.map((location) => (
             <Picker.Item key={location.id} label={location.name} value={location.id.toString()} />
           ))}
         </Picker>
