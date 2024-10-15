@@ -23,8 +23,6 @@ function LoginStackScreen(){
 function LoggedStackScreen() {
   return (
     <LoggedStack.Navigator screenOptions={{ headerShown: false }}>
-      
-      
       <LoggedStack.Screen name="Home" component={Home}/>
       <LoggedStack.Screen name="CrearEvento" component={CrearEvento}/>
     </LoggedStack.Navigator>

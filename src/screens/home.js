@@ -7,7 +7,7 @@ const Home = ({ navigation }) => {
   const [events, setEvents] = useState([]);
 
   const handleCrearEvento = () => {
-    navigation.navigate('CrearEvento');
+    navigation.navigate("CrearEvento");
     console.log("a");
   };
 
