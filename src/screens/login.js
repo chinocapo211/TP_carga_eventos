@@ -10,9 +10,11 @@ const Login = ({ navigation }) => {
   
     try {
       const result = await userApi.user_login(username,password);
-      console.log(result)
+      console.log(result.data)
       if (result.status === 200) {
         navigation.navigate("Logged");
+        localStorage.setItem('userId', result.data.dato);
+        console.log(localStorage.getItem('userId'))
       } else {
         Alert.alert('Error', 'Usuario o contraseña incorrecta');
       }

@@ -65,6 +65,7 @@ const CrearEvento = ({ navigation }) => {
       price: parseInt(price),
       enabledForEnrollment,
       max_assistance: parseInt(maxAssistance),
+      id_creator: localStorage.getItem('userId')
     };
 
     
@@ -76,7 +77,8 @@ const CrearEvento = ({ navigation }) => {
     console.log("ceate evenatdsa:",eventData);
     try{
       const result = await createEvent(eventData);
-      if(result.status === 200){
+      console.log(result)
+      if(result.status === 201){
         alert('Evento creado correctamente'); 
         navigation.goBack();
       }
