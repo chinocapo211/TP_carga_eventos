@@ -3,15 +3,16 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {all_events} from '../api/eventosApi';
 
-const Home = ({ navigation }) => {
-  const [events, setEvents] = useState([]);
+const AdministrarEventos = ({ navigation }) => {
+  const [proxEvents, setEventsProx] = useState([]);
+  const [anteEvents, setEventsAnte] = useState([]);
 
   const handleCrearEvento = () => {
-    navigation.navigate("LoggedStack", { screen: "CrearEvento" });
+    navigation.navigate("CrearEvento");
     console.log("a");
   };
   const handleAdministrar = () => {
-    navigation.navigate("LoggedStack", { screen: "AdministrarEventos" });
+    navigation.navigate("AdministrarEventos");
     console.log("a");
   };
 
@@ -20,14 +21,19 @@ const Home = ({ navigation }) => {
       const result = await all_events();
       console.log(result);
       if (result.status === 200) {
-        const devolver = [];
+        const futuro = [];
+        const pasado = [];
         for(let i = 0; i < result.length; i++) {
           const now = new Date();
-          if(result[i].start_date < now){
-            devolver.push(result[i]);
+          if(new Date(result[i].start_date) < now){
+            futuro.push(result[i]);
+          }
+          else{
+            pasado.push(result[1]);
           }
         }
-        setEvents(devolver); 
+        setEventsProx(futuro);
+        setEventsAnte(pasado); 
       } else {
         alert('Error', 'Muy mal mal');
       }
@@ -50,20 +56,19 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.title}>¡Bienvenido a Nuestra App!</Text>
+        <Text style={styles.title}>Administrador</Text>
         <Text style={styles.introduction}>
           Estamos encantados de tenerte aquí. Nuestra aplicación te ayudará a lograr la felicidad.
           Explora, disfruta y no dudes en contactarnos si necesitas ayuda.
         </Text>
-        <TouchableOpacity style={styles.registerButton} onPress={handleCrearEvento}>
-            <Text style={styles.registerButtonText}>Crear Evento</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.registerButton} onPress={handleAdministrar}>
-            <Text style={styles.registerButtonText}>Administrar eventos</Text>
-          </TouchableOpacity>
         <View style={styles.list}>
         <FlatList
-          data={events}
+          data={proxEvents}
+          renderItem={renderEvent}
+          keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
+        />
+        <FlatList
+          data={anteEvents}
           renderItem={renderEvent}
           keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
         />
@@ -146,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default AdministrarEventos;

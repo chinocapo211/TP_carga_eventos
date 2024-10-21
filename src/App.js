@@ -6,6 +6,7 @@ import Home from './screens/home';
 import Login from './screens/login';
 import Registro from './screens/registro';
 import CrearEvento from './screens/crearevento';
+import AdministrarEventos from './screens/administrareventos';
 
 const LoginStack = createStackNavigator();
 const LoggedStack = createStackNavigator();
@@ -25,6 +26,7 @@ function LoggedStackScreen() {
     <LoggedStack.Navigator screenOptions={{ headerShown: false }}>
       <LoggedStack.Screen name="Home" component={Home}/>
       <LoggedStack.Screen name="CrearEvento" component={CrearEvento}/>
+      <LoggedStack.Screen name="AdministrarEventos" component={AdministrarEventos}/>
     </LoggedStack.Navigator>
   );
 }
@@ -32,8 +34,8 @@ function LoggedStackScreen() {
   function AppNavigator() {
     return (
       <AppStack.Navigator screenOptions={{ headerShown: false }}>
-          <AppStack.Screen name="Login" component={LoginStackScreen} />
-          <AppStack.Screen name="Logged" component={LoggedStackScreen} />
+          <AppStack.Screen name="LoginStack" component={LoginStackScreen} />
+          <AppStack.Screen name="LoggedStack" component={LoggedStackScreen} />
       </AppStack.Navigator>
     );
   }

@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
       const result = await userApi.user_login(username,password);
       console.log(result.data)
       if (result.status === 200) {
-        navigation.navigate("Logged");
+        navigation.navigate("LoggedStack", { screen: "Home" });
         localStorage.setItem('userId', result.data.dato);
         console.log(localStorage.getItem('userId'))
       } else {
