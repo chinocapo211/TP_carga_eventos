@@ -16,7 +16,14 @@ const Home = ({ navigation }) => {
       const result = await all_events();
       console.log(result);
       if (result.status === 200) {
-        setEvents(result.data); 
+        const devolver = [];
+        for(let i = 0; i < result.length; i++) {
+          const now = new Date();
+          if(result[i].start_date < now){
+            devolver.push(result[i]);
+          }
+        }
+        setEvents(devolver); 
       } else {
         alert('Error', 'Muy mal mal');
       }
