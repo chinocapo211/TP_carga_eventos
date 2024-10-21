@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import userApi from "../api/userApi";
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, SafeAreaView, Platform, KeyboardAvoidingView, Alert } from 'react-native';
-
 const Login = ({ navigation }) => {
   const [username, setusernamee] = useState('');
   const [password, setpasswordd] = useState('');
@@ -12,8 +11,8 @@ const Login = ({ navigation }) => {
       const result = await userApi.user_login(username,password);
       console.log(result.data)
       if (result.status === 200) {
-        navigation.navigate("LoggedStack", { screen: "Home" });
-        localStorage.setItem('userId', result.data.dato);
+        await localStorage.setItem('userId', result.data.dato);
+        navigation.navigate("LoggedStack");
         console.log(localStorage.getItem('userId'))
       } else {
         Alert.alert('Error', 'Usuario o contraseña incorrecta');
@@ -21,7 +20,6 @@ const Login = ({ navigation }) => {
     } catch (error) {
       console.error('Login error:', error);
     }
-
   };
 
   const handleRegister = () => {

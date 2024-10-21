@@ -9,10 +9,10 @@ const Registro = ({ navigation }) => {
 
   const handleRegister = async () => {
     if (!email || !first_name || !last_name || !password ) {
-      Alert.alert('Error', 'Por favor, complete todos los campos.');
+      alert('Error', 'Por favor, complete todos los campos.');
       return;
     }
-    Alert.alert('Registro Exitoso', `Usuario: ${first_name}\nEmail: ${email}`);
+    alert('Registro Exitoso', `Usuario: ${first_name}\nEmail: ${email}`);
 
     try
     {

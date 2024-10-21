@@ -21,13 +21,16 @@ const Home = ({ navigation }) => {
       console.log(result);
       if (result.status === 200) {
         const devolver = [];
+        console.log("afuera")
         for(let i = 0; i < result.length; i++) {
           const now = new Date();
-          if(result[i].start_date < now){
+          console.log("adentro")
+          if(result[i].start_date < now){ //hacer bien la validacion de fecha
             devolver.push(result[i]);
+            console.log("valido")
           }
         }
-        setEvents(devolver); 
+        setEvents(result); 
       } else {
         alert('Error', 'Muy mal mal');
       }

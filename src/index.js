@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+console.log("principio")
+localStorage.clear();
 root.render(
   <React.StrictMode>
     <App />
