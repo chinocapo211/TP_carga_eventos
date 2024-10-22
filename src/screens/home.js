@@ -1,36 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {all_events} from '../api/eventosApi';
+import { all_events } from '../api/eventosApi';
 
 const Home = ({ navigation }) => {
   const [events, setEvents] = useState([]);
-
+  const[total, setTotalEvents] = useState([]);
   const handleCrearEvento = () => {
     navigation.navigate("LoggedStack", { screen: "CrearEvento" });
-    console.log("a");
-  };
-  const handleAdministrar = () => {
-    navigation.navigate("LoggedStack", { screen: "AdministrarEventos" });
-    console.log("a");
   };
 
+  const handleAdministrar = () => {
+    navigation.navigate("LoggedStack", { screen: "AdministrarEventos" });
+  };
+
+  const handleDetalle = (id) => {
+    let idPosta = id-1;
+    let devolver = total[idPosta]
+    console.log(devolver)
+    navigation.navigate("LoggedStack", { screen: "EventoDetalle", event: devolver })
+  }
+  
   const getEvents = async () => {
     try {
       const result = await all_events();
-      console.log(result);
       if (result.status === 200) {
         const devolver = [];
-        console.log("afuera")
         result.data.forEach(element => {
           const now = new Date();
-          console.log("adentro")
-          if(new Date(element.start_date) > now){ //hacer bien la validacion de fecha
+          if (new Date(element.start_date) > now) {
             devolver.push(element);
-            console.log("valido")
           }
         });
-        setEvents(devolver); 
+        setEvents(devolver);
+        setTotalEvents(result.data) 
       } else {
         alert('Error', 'Muy mal mal');
       }
@@ -47,9 +50,11 @@ const Home = ({ navigation }) => {
     <View style={styles.eventContainer}>
       <Text style={styles.eventTitle}>{item.name || 'Sin título'}</Text>
       <Text style={styles.eventDescription}>{item.description || 'Sin descripción'}</Text>
+      <TouchableOpacity style={styles.eventButton} onPress={() => handleDetalle(item.id)}>
+        <Text style={styles.eventButtonText}>Detalles</Text>
+      </TouchableOpacity>
     </View>
   );
-  
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -60,17 +65,17 @@ const Home = ({ navigation }) => {
           Explora, disfruta y no dudes en contactarnos si necesitas ayuda.
         </Text>
         <TouchableOpacity style={styles.registerButton} onPress={handleCrearEvento}>
-            <Text style={styles.registerButtonText}>Crear Evento</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.registerButton} onPress={handleAdministrar}>
-            <Text style={styles.registerButtonText}>Administrar eventos</Text>
-          </TouchableOpacity>
+          <Text style={styles.registerButtonText}>Crear Evento</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.registerButton} onPress={handleAdministrar}>
+          <Text style={styles.registerButtonText}>Administrar eventos</Text>
+        </TouchableOpacity>
         <View style={styles.list}>
-        <FlatList
-          data={events}
-          renderItem={renderEvent}
-          keyExtractor={(item) => item.id} // Asegúrate de que 'id' sea único
-        />
+          <FlatList
+            data={events}
+            renderItem={renderEvent}
+            keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -82,23 +87,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#e0e0e0',
   },
-  list:{
-    marginTop:30,
-    width:"80%",
-    display:"flex",
-    flexDirection:"row",
-    flexWrap:"nowrap",
+  list: {
+    marginTop: 30,
+    width: "80%",
   },  
   registerButton: {
     width: '30%',
     padding: 16,
-    backgroundColor: '#24292e', // Fondo azul para el botón de registro
-    borderRadius: 6, // Bordes redondeados
+    backgroundColor: '#24292e',
+    borderRadius: 6,
     alignItems: 'center',
     marginTop: 40,
   },
   registerButtonText: {
-    color: '#ffffff', // Texto blanco para el botón de registro
+    color: '#ffffff',
     fontWeight: 'bold',
     fontSize: 16,
   },
@@ -128,17 +130,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 10,
     width: '100%',
-    elevation: 3, // for Android shadow
-    shadowColor: '#000', // for iOS shadow
+    elevation: 3,
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    display:"flex",
-    textAlign:"center",
-    alignItems:"center",
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    alignItems: 'center', // Centrar contenido
   },
   eventTitle: {
     fontSize: 20,
@@ -147,6 +147,18 @@ const styles = StyleSheet.create({
   eventDescription: {
     fontSize: 16,
     color: '#666',
+  },
+  eventButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#808080', // Color gris para el botón
+    borderRadius: 5,
+    alignItems: 'center',
+    width:"40%",
+  },
+  eventButtonText: {
+    color: '#ffffff', // Texto blanco para el botón de evento
+    fontWeight: 'bold',
   },
 });
 
