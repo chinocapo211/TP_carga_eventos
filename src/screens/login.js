@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
       console.log(result.data)
       if (result.status === 200) {
         await localStorage.setItem('userId', result.data.dato);
-        navigation.navigate("LoggedStack");
+        navigation.navigate("LoggedStack", { screen: "Home" });
         console.log(localStorage.getItem('userId'))
       } else {
         Alert.alert('Error', 'Usuario o contraseña incorrecta');

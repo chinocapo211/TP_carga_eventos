@@ -7,15 +7,6 @@ const AdministrarEventos = ({ navigation }) => {
   const [proxEvents, setEventsProx] = useState([]);
   const [anteEvents, setEventsAnte] = useState([]);
 
-  const handleCrearEvento = () => {
-    navigation.navigate("CrearEvento");
-    console.log("a");
-  };
-  const handleAdministrar = () => {
-    navigation.navigate("AdministrarEventos");
-    console.log("a");
-  };
-
   const getEvents = async () => {
     try {
       const result = await all_events();
@@ -23,15 +14,18 @@ const AdministrarEventos = ({ navigation }) => {
       if (result.status === 200) {
         const futuro = [];
         const pasado = [];
-        for(let i = 0; i < result.length; i++) {
+        result.data.forEach(element => {
           const now = new Date();
-          if(new Date(result[i].start_date) < now){
-            futuro.push(result[i]);
+          console.log("adentro")
+          if(new Date(element.start_date) > now){ //hacer bien la validacion de fecha
+            futuro.push(element);
+            console.log("valido")
           }
           else{
-            pasado.push(result[1]);
+            pasado.push(element)
+            console.log("vali2")
           }
-        }
+        });
         setEventsProx(futuro);
         setEventsAnte(pasado); 
       } else {

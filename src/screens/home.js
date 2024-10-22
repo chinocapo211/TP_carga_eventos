@@ -22,15 +22,15 @@ const Home = ({ navigation }) => {
       if (result.status === 200) {
         const devolver = [];
         console.log("afuera")
-        for(let i = 0; i < result.length; i++) {
+        result.data.forEach(element => {
           const now = new Date();
           console.log("adentro")
-          if(result[i].start_date < now){ //hacer bien la validacion de fecha
-            devolver.push(result[i]);
+          if(new Date(element.start_date) > now){ //hacer bien la validacion de fecha
+            devolver.push(element);
             console.log("valido")
           }
-        }
-        setEvents(result); 
+        });
+        setEvents(devolver); 
       } else {
         alert('Error', 'Muy mal mal');
       }
@@ -45,10 +45,11 @@ const Home = ({ navigation }) => {
 
   const renderEvent = ({ item }) => (
     <View style={styles.eventContainer}>
-      <Text style={styles.eventTitle}>{item.name}</Text> {/* Cambia 'title' según tu estructura de evento */}
-      <Text style={styles.eventDescription}>{item.description}</Text> {/* Cambia 'description' según tu estructura de evento */}
+      <Text style={styles.eventTitle}>{item.name || 'Sin título'}</Text>
+      <Text style={styles.eventDescription}>{item.description || 'Sin descripción'}</Text>
     </View>
   );
+  
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -68,7 +69,7 @@ const Home = ({ navigation }) => {
         <FlatList
           data={events}
           renderItem={renderEvent}
-          keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
+          keyExtractor={(item) => item.id} // Asegúrate de que 'id' sea único
         />
         </View>
       </View>

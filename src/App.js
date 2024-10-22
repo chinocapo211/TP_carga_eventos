@@ -46,11 +46,11 @@ function AppNavigator() {
 
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
-      {login ? (
+        <AppStack.Screen name="LoginStack" component={LoginStackScreen} />  
         <AppStack.Screen name="LoggedStack" component={LoggedStackScreen} />
-      ) : (
-        <AppStack.Screen name="LoginStack" component={LoginStackScreen} />
-      )}
+
+        
+
     </AppStack.Navigator>
   );
 }
