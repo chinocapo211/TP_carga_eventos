@@ -65,7 +65,7 @@ const CrearEvento = ({ navigation }) => {
       price: parseInt(price),
       enabled_for_enrollment,
       max_assistance: parseInt(maxAssistance),
-      id_creator: localStorage.getItem('userId')
+      id_creator_user: localStorage.getItem('userId')
     };
 
     
