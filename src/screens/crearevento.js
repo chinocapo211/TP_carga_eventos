@@ -12,7 +12,7 @@ const CrearEvento = ({ navigation }) => {
   const [startDate, setStartDate] = useState('');
   const [durationInMinutes, setDurationInMinutes] = useState('');
   const [price, setPrice] = useState('');
-  const [enabledForEnrollment, setEnabledForEnrollment] = useState(false);
+  const [enabled_for_enrollment, setEnabledForEnrollment] = useState(false);
   const [maxAssistance, setMaxAssistance] = useState('');
   const [categories, setCategories] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -54,7 +54,7 @@ const CrearEvento = ({ navigation }) => {
       alert('Todos los campos son obligatorios.');
       return;
     }
-
+    
     const eventData = {
       name,
       description,
@@ -63,7 +63,7 @@ const CrearEvento = ({ navigation }) => {
       start_date: new Date(startDate),
       duration_in_minutes: parseInt(durationInMinutes),
       price: parseInt(price),
-      enabledForEnrollment,
+      enabled_for_enrollment,
       max_assistance: parseInt(maxAssistance),
       id_creator: localStorage.getItem('userId')
     };
@@ -157,7 +157,7 @@ const CrearEvento = ({ navigation }) => {
         <View style={styles.checkboxContainer}>
           <Text style={styles.checkboxLabel}>Habilitar para inscripciones</Text>
           <Switch
-            value={enabledForEnrollment}
+            value={enabled_for_enrollment}
             onValueChange={setEnabledForEnrollment}
           />
         </View>

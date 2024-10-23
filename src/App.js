@@ -7,6 +7,7 @@ import Registro from './screens/registro';
 import CrearEvento from './screens/crearevento';
 import AdministrarEventos from './screens/administrareventos';
 import EventoDetalle from './screens/eventodetalle';
+import EventoDetalleAdmin from './screens/EventoDetalleAdmin';
 import userApi from './api/userApi';
 
 const LoginStack = createStackNavigator();
@@ -29,6 +30,7 @@ function LoggedStackScreen() {
       <LoggedStack.Screen name="CrearEvento" component={CrearEvento} />
       <LoggedStack.Screen name="AdministrarEventos" component={AdministrarEventos} />
       <LoggedStack.Screen name = "EventoDetalle" component={EventoDetalle}/>
+      <LoggedStack.Screen name = "EventoDetalleAdmin" component={EventoDetalleAdmin}/>
     </LoggedStack.Navigator>
   );
 }

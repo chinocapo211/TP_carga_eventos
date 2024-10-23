@@ -1,33 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {all_events} from '../api/eventosApi';
+import { View, Text, StyleSheet, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
+import { all_events } from '../api/eventosApi';
 
 const AdministrarEventos = ({ navigation }) => {
   const [proxEvents, setEventsProx] = useState([]);
   const [anteEvents, setEventsAnte] = useState([]);
-
+  const [total, setTotal] = useState([]);
   const getEvents = async () => {
     try {
       const result = await all_events();
-      console.log(result);
       if (result.status === 200) {
         const futuro = [];
         const pasado = [];
+        setTotal(result.data)
         result.data.forEach(element => {
           const now = new Date();
-          console.log("adentro")
-          if(new Date(element.start_date) > now){ //hacer bien la validacion de fecha
+          if (new Date(element.start_date) > now) {
             futuro.push(element);
-            console.log("valido")
-          }
-          else{
-            pasado.push(element)
-            console.log("vali2")
+          } else {
+            pasado.push(element);
           }
         });
         setEventsProx(futuro);
-        setEventsAnte(pasado); 
+        setEventsAnte(pasado);
       } else {
         alert('Error', 'Muy mal mal');
       }
@@ -40,10 +35,18 @@ const AdministrarEventos = ({ navigation }) => {
     getEvents();
   }, []);
 
+  const handleDetalle = (item) => {
+    console.log(item)
+    navigation.navigate("LoggedStack", { screen: "EventoDetalleAdmin", params: { event: item } });
+  }
+
   const renderEvent = ({ item }) => (
     <View style={styles.eventContainer}>
-      <Text style={styles.eventTitle}>{item.name}</Text> {/* Cambia 'title' según tu estructura de evento */}
-      <Text style={styles.eventDescription}>{item.description}</Text> {/* Cambia 'description' según tu estructura de evento */}
+      <Text style={styles.eventTitle}>{item.name}</Text>
+      <Text style={styles.eventDescription}>{item.description}</Text>
+      <TouchableOpacity style={styles.eventButton} onPress={() => handleDetalle(item)}>
+        <Text style={styles.eventButtonText}>Detalles</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -55,17 +58,29 @@ const AdministrarEventos = ({ navigation }) => {
           Estamos encantados de tenerte aquí. Nuestra aplicación te ayudará a lograr la felicidad.
           Explora, disfruta y no dudes en contactarnos si necesitas ayuda.
         </Text>
-        <View style={styles.list}>
-        <FlatList
-          data={proxEvents}
-          renderItem={renderEvent}
-          keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
-        />
-        <FlatList
-          data={anteEvents}
-          renderItem={renderEvent}
-          keyExtractor={(item) => item.id.toString()} // Asegúrate de que 'id' sea único
-        />
+
+        <View style={styles.listContainer}>
+          <View style={styles.listColumn}>
+            <Text style={styles.columnTitle}>Próximos Eventos</Text>
+            <FlatList
+              data={proxEvents}
+              renderItem={renderEvent}
+              keyExtractor={(item) => item.id.toString()}
+              style={styles.flatList}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+
+          <View style={styles.listColumn}>
+            <Text style={styles.columnTitle}>Eventos Pasados</Text>
+            <FlatList
+              data={anteEvents}
+              renderItem={renderEvent}
+              keyExtractor={(item) => item.id.toString()}
+              style={styles.flatList}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -77,30 +92,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#e0e0e0',
   },
-  list:{
-    marginTop:30,
-    width:"80%",
-    display:"flex",
-    flexDirection:"row",
-    flexWrap:"nowrap",
-  },  
-  registerButton: {
-    width: '30%',
-    padding: 16,
-    backgroundColor: '#24292e', // Fondo azul para el botón de registro
-    borderRadius: 6, // Bordes redondeados
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  registerButtonText: {
-    color: '#ffffff', // Texto blanco para el botón de registro
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#e0e0e0',
     alignItems: 'center',
     padding: 20,
   },
@@ -108,40 +101,69 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: "3%",
+    marginTop: 20,
   },
   introduction: {
-    fontSize: 18,
-    color: '#333',
+    fontSize: 16,
+    color: '#555',
     textAlign: 'center',
-    marginTop: "2%",
-    lineHeight: 24,
+    marginVertical: 20,
+    lineHeight: 22,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  listColumn: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
+  columnTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  flatList: {
+    flexGrow: 0,
   },
   eventContainer: {
     backgroundColor: '#fff',
     padding: 15,
     marginVertical: 10,
     borderRadius: 10,
-    width: '100%',
-    elevation: 3, // for Android shadow
-    shadowColor: '#000', // for iOS shadow
+    elevation: 3,
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    display:"flex",
-    textAlign:"center",
-    alignItems:"center",
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    alignItems: 'center',
   },
   eventTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
+    marginBottom: 5,
   },
   eventDescription: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#666',
+    textAlign: 'center',
+  },
+  eventButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#808080', // Color gris para el botón
+    borderRadius: 5,
+    alignItems: 'center',
+    width:"40%",
+  },
+  eventButtonText: {
+    color: '#ffffff', // Texto blanco para el botón de evento
+    fontWeight: 'bold',
   },
 });
 

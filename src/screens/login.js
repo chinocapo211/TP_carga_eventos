@@ -13,7 +13,7 @@ const Login = ({ navigation }) => {
       if (result.status === 200) {
         await localStorage.setItem('userId', result.data.dato);
         navigation.navigate("LoggedStack", { screen: "Home" });
-        console.log(localStorage.getItem('userId'))
+        console.log("cacasdawdasdw"+localStorage.getItem('userId'))
       } else {
         Alert.alert('Error', 'Usuario o contraseña incorrecta');
       }

@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { all_categories } from '../api/categoriesApi';
 import { all_locations } from '../api/locations';
-import { enrollEvent } from '../api/eventosApi';
-const EventoDetalle = ({ navigation, route }) => {
+import { deleteEvent } from '../api/eventosApi';
+const EventoDetalleAdmin = ({ navigation, route }) => {
   const { event } = route.params;
   const [categories, setCategories] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -40,24 +40,24 @@ const EventoDetalle = ({ navigation, route }) => {
     getLocations();
   }, []);
 
-  const handleEnroll = async () => {
-    const result = await enrollEvent(event.id,localStorage.getItem('userId'))
-    if(result.status === 201){
-      alert("Te inscribiste correctamente")
+  const handleDelete = async () => {
+    const result = await deleteEvent(event.id,localStorage.getItem('userId'))
+    if(result.status === 200){
+      alert("Eliminado")
       navigation.goBack()
     }
     else{
       alert("Hubo un error")
     }
   }
-
+  console.log(event)
   const category = categories[event.id_event_category - 1];
   const location = locations[event.id_event_location - 1];
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Detalle Evento</Text>
+        <Text style={styles.title}>Administrar Evento</Text>
         <View style={styles.detailContainer}>
           <Text style={styles.detailLabel}>Nombre:</Text>
           <Text style={styles.detailText}>{event.name || 'Sin título'}</Text>
@@ -86,12 +86,9 @@ const EventoDetalle = ({ navigation, route }) => {
           <Text style={styles.detailLabel}>Categoría:</Text>
           <Text style={styles.detailText}>{category?.name || 'Sin categoría'}</Text>
         </View>
-        
-        {event.enabled_for_enrollment && (
-          <TouchableOpacity style={styles.enrollButton} onPress={handleEnroll}>
-            <Text style={styles.enrollButtonText}>Inscribirse</Text>
+          <TouchableOpacity style={styles.enrollButton} onPress={handleDelete}>
+            <Text style={styles.enrollButtonText}>Eliminar</Text>
           </TouchableOpacity>
-        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -135,7 +132,7 @@ const styles = StyleSheet.create({
   enrollButton: {
     width: '50%',
     padding: 15,
-    backgroundColor: '#28a745', // Verde
+    backgroundColor: '#ff7e63', // Verde
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 20,
@@ -147,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventoDetalle;
+export default EventoDetalleAdmin;

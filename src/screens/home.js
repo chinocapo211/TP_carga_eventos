@@ -14,12 +14,10 @@ const Home = ({ navigation }) => {
     navigation.navigate("LoggedStack", { screen: "AdministrarEventos" });
   };
 
-  const handleDetalle = (id) => {
-    let idPosta = id-1;
-    let devolver = total[idPosta]
-    console.log(devolver)
-    navigation.navigate("LoggedStack", { screen: "EventoDetalle", event: devolver })
-  }
+  const handleDetalle = (item) => {
+    navigation.navigate("LoggedStack", { screen: "EventoDetalle", params: { event: item } });
+};
+
   
   const getEvents = async () => {
     try {
@@ -50,7 +48,8 @@ const Home = ({ navigation }) => {
     <View style={styles.eventContainer}>
       <Text style={styles.eventTitle}>{item.name || 'Sin título'}</Text>
       <Text style={styles.eventDescription}>{item.description || 'Sin descripción'}</Text>
-      <TouchableOpacity style={styles.eventButton} onPress={() => handleDetalle(item.id)}>
+      <Text style={styles.eventDescription}>{item.id}</Text>
+      <TouchableOpacity style={styles.eventButton} onPress={() => handleDetalle(item)}>
         <Text style={styles.eventButtonText}>Detalles</Text>
       </TouchableOpacity>
     </View>
